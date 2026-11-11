@@ -1,0 +1,559 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>City Garden Grand Hotel - Christmas</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    position: relative;
+    min-height: 100vh;
+    min-height: 100svh;
+    overflow: hidden;
+
+    background: radial-gradient(circle, #020817, #09264b);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-family: Arial, sans-serif;
+}
+
+/* ===================================
+   HOTEL LOGO BACKGROUND
+=================================== */
+
+body::before {
+    content: "";
+    position: fixed;
+
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    width: min(90vw, 1100px);
+    height: min(70vh, 500px);
+
+    background-image: url("logo.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+
+    opacity: 0.40;
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* ===================================
+   MAIN SKY
+=================================== */
+
+.sky {
+    position: relative;
+    width: 100%;
+    height: 350px;
+    z-index: 1;
+}
+
+/* ===================================
+   CHRISTMAS MESSAGE
+=================================== */
+
+.message {
+    position: absolute;
+
+    top: 57%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    white-space: pre;
+    width: max-content;
+    max-width: 95vw;
+
+    font-size: clamp(24px, 6vw, 65px);
+    font-weight: bold;
+    color: #ffd700;
+
+    text-shadow:
+        0 0 5px #ffd700,
+        0 0 15px #ffae00,
+        0 0 30px #ffae00;
+
+    z-index: 2;
+}
+
+.letter {
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.letter.show {
+    opacity: 1;
+}
+
+/* ===================================
+   SANTA SLEIGH
+=================================== */
+
+#santa {
+    position: absolute;
+
+    width: 180px;
+    height: 130px;
+
+    object-fit: contain;
+
+    top: calc(57% - 65px);
+    left: 100%;
+
+    z-index: 5;
+    pointer-events: none;
+}
+
+/* ===================================
+   CHRISTMAS COUNTDOWN
+=================================== */
+
+.countdown {
+    position: absolute;
+
+    top: 83%;
+    left: 50%;
+    transform: translateX(-50%);
+
+    width: 100%;
+    text-align: center;
+
+    color: white;
+    z-index: 3;
+}
+
+.countdown-title {
+    font-size: clamp(12px, 2vw, 18px);
+    letter-spacing: 5px;
+
+    margin-top: 10px;
+    margin-bottom: 12px;
+
+    color: #bdeaff;
+}
+
+.timer {
+    display: flex;
+    justify-content: center;
+    gap: clamp(10px, 3vw, 30px);
+}
+
+.time-box {
+    min-width: 55px;
+}
+
+.time-number {
+    font-size: clamp(20px, 4vw, 35px);
+    font-weight: bold;
+
+    margin-top: -15px;
+
+    color: #fff;
+    text-shadow: 0 0 12px #53bfff;
+}
+
+.time-label {
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: #a9d9ff;
+}
+
+/* ===================================
+   SNOWFALL EFFECT
+=================================== */
+
+.snow {
+    position: fixed;
+    top: -15px;
+
+    color: white;
+    pointer-events: none;
+
+    z-index: 10;
+
+    animation: snowfall linear forwards;
+    text-shadow: 0 0 5px white;
+}
+
+@keyframes snowfall {
+    0% {
+        transform: translate3d(0, -10px, 0);
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 1;
+    }
+
+    100% {
+        transform: translate3d(80px, 110vh, 0);
+        opacity: 0.2;
+    }
+}
+
+/* ===================================
+   MOBILE RESPONSIVENESS
+=================================== */
+
+@media (max-width: 600px) {
+
+    .sky {
+        height: 300px;
+    }
+
+    #santa {
+        width: 130px;
+        height: 100px;
+        top: calc(57% - 50px);
+    }
+
+    body::before {
+        width: 95vw;
+        height: 300px;
+        opacity: 0.35;
+    }
+
+    .countdown-title {
+        letter-spacing: 3px;
+    }
+
+    .time-box {
+        min-width: 45px;
+    }
+
+    .time-label {
+        font-size: 9px;
+        letter-spacing: 1px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .letter {
+        transition: none;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="sky" id="sky">
+
+    <!-- CHRISTMAS MESSAGE -->
+    <div class="message" id="message"></div>
+
+    <!-- SANTA CLAUS -->
+    <img
+        id="santa"
+        src="santaclause.png"
+        alt="Santa Claus"
+    >
+
+    <!-- CHRISTMAS COUNTDOWN -->
+    <div class="countdown">
+
+        <div class="countdown-title">
+            CHRISTMAS COUNTDOWN
+        </div>
+
+        <div class="timer">
+
+            <div class="time-box">
+                <div class="time-number" id="days">00</div>
+                <div class="time-label">DAYS</div>
+            </div>
+
+            <div class="time-box">
+                <div class="time-number" id="hours">00</div>
+                <div class="time-label">HOURS</div>
+            </div>
+
+            <div class="time-box">
+                <div class="time-number" id="minutes">00</div>
+                <div class="time-label">MINUTES</div>
+            </div>
+
+            <div class="time-box">
+                <div class="time-number" id="seconds">00</div>
+                <div class="time-label">SECONDS</div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<script>
+
+// ===================================
+// CHRISTMAS MESSAGE
+// ===================================
+
+const words = "MERRY CHRISTMAS!";
+
+const message = document.getElementById("message");
+const santa = document.getElementById("santa");
+const sky = document.getElementById("sky");
+
+const letters = [];
+
+for (const char of words) {
+
+    const span = document.createElement("span");
+
+    span.className = "letter";
+
+    span.textContent =
+        char === " " ? "\u00A0" : char;
+
+    message.appendChild(span);
+
+    letters.push(span);
+}
+
+
+// ===================================
+// SANTA ANIMATION
+// ===================================
+
+const speed = 9000;
+const pause = 2500;
+
+let animationFrame = null;
+let santaPause = null;
+
+function startSanta() {
+
+    // Stop any previous animation
+    if (animationFrame !== null) {
+        cancelAnimationFrame(animationFrame);
+    }
+
+    clearTimeout(santaPause);
+
+    letters.forEach(letter => {
+        letter.classList.remove("show");
+    });
+
+    const startTime = performance.now();
+
+    function moveSanta(time) {
+
+        const progress = Math.min(
+            (time - startTime) / speed,
+            1
+        );
+
+        // Recalculate width to support screen resizing
+        const width = sky.clientWidth;
+        const santaWidth = santa.offsetWidth;
+
+        const startX = width;
+        const endX = -santaWidth;
+
+        const currentX =
+            startX + (endX - startX) * progress;
+
+        santa.style.left = currentX + "px";
+
+        const santaCenter =
+            santa.getBoundingClientRect().left +
+            santa.offsetWidth / 2;
+
+        letters.forEach(letter => {
+
+            const rect = letter.getBoundingClientRect();
+
+            const letterCenter =
+                rect.left + rect.width / 2;
+
+            // Reveal letters as Santa passes them
+            if (santaCenter <= letterCenter) {
+                letter.classList.add("show");
+            }
+
+        });
+
+        if (progress < 1) {
+
+            animationFrame =
+                requestAnimationFrame(moveSanta);
+
+        } else {
+
+            animationFrame = null;
+
+            santaPause = setTimeout(
+                startSanta,
+                pause
+            );
+        }
+    }
+
+    animationFrame =
+        requestAnimationFrame(moveSanta);
+}
+
+
+// Wait for Santa image to load
+if (santa.complete && santa.naturalWidth > 0) {
+
+    startSanta();
+
+} else {
+
+    santa.addEventListener("load", startSanta, {
+        once: true
+    });
+
+}
+
+
+// ===================================
+// CHRISTMAS COUNTDOWN
+// ===================================
+
+// December 25, 2026 - Philippine Time
+const christmasDate = new Date(
+    "2026-12-25T00:00:00+08:00"
+).getTime();
+
+const daysElement = document.getElementById("days");
+const hoursElement = document.getElementById("hours");
+const minutesElement = document.getElementById("minutes");
+const secondsElement = document.getElementById("seconds");
+
+const countdownTitle =
+    document.querySelector(".countdown-title");
+
+let countdownInterval;
+
+function updateCountdown() {
+
+    const now = Date.now();
+
+    const distance = christmasDate - now;
+
+    if (distance <= 0) {
+
+        daysElement.textContent = "00";
+        hoursElement.textContent = "00";
+        minutesElement.textContent = "00";
+        secondsElement.textContent = "00";
+
+        countdownTitle.textContent =
+            "MERRY CHRISTMAS!";
+
+        clearInterval(countdownInterval);
+
+        return;
+    }
+
+    const days = Math.floor(
+        distance / (1000 * 60 * 60 * 24)
+    );
+
+    const hours = Math.floor(
+        (distance / (1000 * 60 * 60)) % 24
+    );
+
+    const minutes = Math.floor(
+        (distance / (1000 * 60)) % 60
+    );
+
+    const seconds = Math.floor(
+        (distance / 1000) % 60
+    );
+
+    daysElement.textContent =
+        String(days).padStart(2, "0");
+
+    hoursElement.textContent =
+        String(hours).padStart(2, "0");
+
+    minutesElement.textContent =
+        String(minutes).padStart(2, "0");
+
+    secondsElement.textContent =
+        String(seconds).padStart(2, "0");
+}
+
+updateCountdown();
+
+countdownInterval = setInterval(
+    updateCountdown,
+    1000
+);
+
+
+// ===================================
+// SNOWFALL EFFECT
+// ===================================
+
+function createSnow() {
+
+    // Prevent excessive snow elements
+    if (document.querySelectorAll(".snow").length > 90) {
+        return;
+    }
+
+    const snow = document.createElement("div");
+
+    snow.className = "snow";
+
+    snow.textContent =
+        Math.random() > 0.5 ? "❄" : "•";
+
+    snow.style.left =
+        Math.random() * 100 + "vw";
+
+    snow.style.fontSize =
+        (Math.random() * 12 + 5) + "px";
+
+    snow.style.opacity =
+        Math.random() * 0.7 + 0.3;
+
+    const duration =
+        Math.random() * 7 + 5;
+
+    snow.style.animationDuration =
+        duration + "s";
+
+    document.body.appendChild(snow);
+
+    setTimeout(() => {
+        snow.remove();
+    }, duration * 1000);
+}
+
+// Create snow continuously
+setInterval(createSnow, 140);
+
+</script>
+
+</body>
+</html>
